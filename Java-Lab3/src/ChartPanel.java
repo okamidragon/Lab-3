@@ -1,3 +1,6 @@
+// Maddock Davis
+// Lab 3: CharPanel
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -5,9 +8,10 @@ import java.util.List;
 public class ChartPanel extends JPanel {
     private List<DevelopmentIndicator> data;
 
+    // Creates the panel to display the chart
     public ChartPanel(List<DevelopmentIndicator> data) {
         this.data = data;
-        setPreferredSize(new Dimension(800, 400)); // Increased height for better visibility
+        setPreferredSize(new Dimension(800, 400));
     }
 
     @Override
@@ -16,14 +20,16 @@ public class ChartPanel extends JPanel {
         drawChart(g);
     }
 
+    // Draws the chart
     private void drawChart(Graphics g) {
         if (data.isEmpty()) return;
 
+        // Dimensions of the graph
         int numYears = data.get(0).getPublicationsPerYear().size();
-        int barWidth = 20; // Width of each bar
-        int spacing = 10; // Space between bars
-        int xOffset = 50; // Starting x position
-        int yBase = getHeight() - 30; // Base position for the y-axis
+        int barWidth = 20;
+        int spacing = 10;
+        int xOffset = 50;
+        int yBase = getHeight() - 30;
 
         // Draw axes
         g.drawLine(40, yBase, 40, 30); // Y-axis
@@ -33,21 +39,21 @@ public class ChartPanel extends JPanel {
         int x = xOffset;
         for (DevelopmentIndicator indicator : data) {
             g.drawString(indicator.getCountry(), x, yBase + 15);
-            x += barWidth + spacing; // Move x position for next country
+            x += barWidth + spacing;
         }
 
         // Draw bars for each year
-        int yearOffset = 0; // To space out years
+        int yearOffset = 0;
         for (int yearIndex = 0; yearIndex < numYears; yearIndex++) {
-            x = xOffset; // Reset x for each year
+            x = xOffset;
             for (DevelopmentIndicator indicator : data) {
                 int publications = indicator.getPublicationsPerYear().get(yearIndex);
-                int barHeight = publications / 10; // Scale down for visibility
+                int barHeight = publications / 10;
                 g.setColor(Color.BLUE);
                 g.fillRect(x, yBase - barHeight, barWidth, barHeight);
-                x += barWidth + spacing; // Move to the next country
+                x += barWidth + spacing;
             }
-            yearOffset += 30; // Increase vertical offset for each year's bars
+            yearOffset += 30;
         }
     }
 }
