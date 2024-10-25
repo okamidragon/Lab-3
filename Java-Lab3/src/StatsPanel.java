@@ -1,7 +1,11 @@
+// Maddock Davis
+// Lab 3: Statistics panel
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+// Creates the statistics table for the GUI
 public class StatsPanel extends JPanel {
     private JLabel mostPublicationsLabel;
     private JLabel leastPublicationsLabel;
@@ -15,15 +19,18 @@ public class StatsPanel extends JPanel {
         String leastPublicationsCountry = getCountryWithLeastPublications(data);
         String mostInSingleYearCountry = getCountryWithMostInSingleYear(data);
 
+        // Create the visuals for the statistics
         mostPublicationsLabel = new JLabel("Country with Most Publications: " + mostPublicationsCountry);
         leastPublicationsLabel = new JLabel("Country with Least Publications: " + leastPublicationsCountry);
         mostInSingleYearLabel = new JLabel("Country with Most Publications in a Single Year: " + mostInSingleYearCountry);
 
+        // Displays the statistics on the GUI
         add(mostPublicationsLabel);
         add(leastPublicationsLabel);
         add(mostInSingleYearLabel);
     }
 
+    // Determines which country has the most total publications
     private String getCountryWithMostPublications(List<DevelopmentIndicator> data) {
         String country = "";
         int maxPublications = 0;
@@ -38,6 +45,7 @@ public class StatsPanel extends JPanel {
         return country + " (" + maxPublications + ")";
     }
 
+    // Determines which country has the least total publications
     private String getCountryWithLeastPublications(List<DevelopmentIndicator> data) {
         String country = "";
         int minPublications = Integer.MAX_VALUE;
@@ -52,6 +60,7 @@ public class StatsPanel extends JPanel {
         return country + " (" + (minPublications == Integer.MAX_VALUE ? 0 : minPublications) + ")";
     }
 
+    // Determines which country had the most publicatations in a single year
     private String getCountryWithMostInSingleYear(List<DevelopmentIndicator> data) {
         String country = "";
         int maxPublicationsInYear = 0;
