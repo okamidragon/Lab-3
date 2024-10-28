@@ -2,6 +2,8 @@
 // Lab 3: Table panel
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,8 +19,8 @@ public class TablePanel extends JPanel {
     private JButton sortAscButton;
     private JButton sortDescButton;
 
-    // Creates the Table panel
-    public TablePanel(List<DevelopmentIndicator> data) {
+    // Constructor for Table Panel
+    public TablePanel(List<DevelopmentIndicator> data, DetailsPanel detailsPanel) {
         setLayout(new BorderLayout());
 
         // Define the number of years for columns dynamically based on the data
@@ -63,6 +65,27 @@ public class TablePanel extends JPanel {
 
         sortPanel.add(sortAscButton);
         sortPanel.add(sortDescButton);
+
+        // Selection listener to update details panel
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String country = (String) tableModel.getValueAt(selectedRow, 0);
+                        for (DevelopmentIndicator indicator : data) {
+                            if (indicator.getCountry().equals(country)) {
+                                detailsPanel.updateDetails(indicator);
+                                break;
+                            }
+                        }
+                    } else {
+                        detailsPanel.updateDetails(null);
+                    }
+                }
+            }
+        });
 
         // Add sort panel and table to the main panel
         add(sortPanel, BorderLayout.NORTH);
