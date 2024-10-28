@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MainApp {
     public static void main(String[] args) {
-        
+
         // Loads the data from the CSV file
         SwingUtilities.invokeLater(() -> {
             DataLoader dataLoader = new DataLoader();
@@ -33,7 +33,7 @@ public class MainApp {
             frame.add(statsPanel, BorderLayout.NORTH);
             frame.add(tablePanel, BorderLayout.CENTER);
             frame.add(chartPanel, BorderLayout.SOUTH);
-            
+
             frame.setSize(800, 600);
             frame.setVisible(true);
         });
