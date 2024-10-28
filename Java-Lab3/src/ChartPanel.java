@@ -30,9 +30,15 @@ public class ChartPanel extends JPanel {
         sortPanel.add(sortAscButton);
         sortPanel.add(sortDescButton);
 
-        // Add the sorting panel to the main panel
+        // Create title label
+        JLabel titleLabel = new JLabel("Total Publications", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setPreferredSize(new Dimension(800, 30));
+
+        // Add the title and sorting panel to the main panel
         setLayout(new BorderLayout());
-        add(sortPanel, BorderLayout.NORTH);
+        add(titleLabel, BorderLayout.NORTH);
+        add(sortPanel, BorderLayout.EAST);
     }
 
     @Override
