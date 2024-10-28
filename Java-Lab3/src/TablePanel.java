@@ -18,10 +18,15 @@ public class TablePanel extends JPanel {
     private JComboBox<String> columnSelector;
     private JButton sortAscButton;
     private JButton sortDescButton;
+    private JButton removeFilterButton;
+    private List<DevelopmentIndicator> originalData;
 
     // Constructor for Table Panel
     public TablePanel(List<DevelopmentIndicator> data, DetailsPanel detailsPanel) {
         setLayout(new BorderLayout());
+
+        // Store the original data for resetting the table
+        originalData = data;
 
         // Define the number of years for columns dynamically based on the data
         int numYears = data.isEmpty() ? 0 : data.get(0).getPublicationsPerYear().size();
@@ -38,15 +43,7 @@ public class TablePanel extends JPanel {
         table = new JTable(tableModel);
 
         // Populate table with data
-        for (DevelopmentIndicator indicator : data) {
-            Object[] row = new Object[numYears + 1];
-            row[0] = indicator.getCountry();
-            List<Integer> publications = indicator.getPublicationsPerYear();
-            for (int i = 0; i < publications.size(); i++) {
-                row[i + 1] = publications.get(i);
-            }
-            tableModel.addRow(row);
-        }
+        populateTable(data);
 
         // Create sorting panel
         JPanel sortPanel = new JPanel();
@@ -59,12 +56,15 @@ public class TablePanel extends JPanel {
         // Create sorting buttons
         sortAscButton = new JButton("Sort Ascending");
         sortDescButton = new JButton("Sort Descending");
+        removeFilterButton = new JButton("Remove Filter");
 
         sortAscButton.addActionListener(new SortActionListener(true));
         sortDescButton.addActionListener(new SortActionListener(false));
+        removeFilterButton.addActionListener(new RemoveFilterActionListener());
 
         sortPanel.add(sortAscButton);
         sortPanel.add(sortDescButton);
+        sortPanel.add(removeFilterButton);
 
         // Selection listener to update details panel
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -91,6 +91,20 @@ public class TablePanel extends JPanel {
         add(sortPanel, BorderLayout.NORTH);
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // Populate the table with data
+    private void populateTable(List<DevelopmentIndicator> data) {
+        tableModel.setRowCount(0);
+        for (DevelopmentIndicator indicator : data) {
+            Object[] row = new Object[indicator.getPublicationsPerYear().size() + 1];
+            row[0] = indicator.getCountry();
+            List<Integer> publications = indicator.getPublicationsPerYear();
+            for (int i = 0; i < publications.size(); i++) {
+                row[i + 1] = publications.get(i);
+            }
+            tableModel.addRow(row);
+        }
     }
 
     // Filters to sort through the table
@@ -121,6 +135,15 @@ public class TablePanel extends JPanel {
 
             // Notify table that data has changed
             tableModel.fireTableDataChanged();
+        }
+    }
+
+    // Action listener for removing the filter
+    private class RemoveFilterActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Reset the table to the original data
+            populateTable(originalData);
         }
     }
 }
