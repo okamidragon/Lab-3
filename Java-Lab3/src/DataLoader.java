@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class DataLoader {
     public static List<DevelopmentIndicator> loadData(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            
+
             // Skip the header line and process each line as a DevelopmentIndicator
             return br.lines()
                     .skip(1)
