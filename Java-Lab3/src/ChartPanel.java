@@ -1,5 +1,5 @@
 // Maddock Davis
-// ChartPanel
+// Lab 3: ChartPanel
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class ChartPanel extends JPanel {
             x += barWidth + spacing;
         }
 
-        // Optional: Draw Y-axis labels for scaling
+        // Draw Y-axis labels for scaling
         int yScaleInterval = maxPublications / 5;
         for (int i = 0; i <= 5; i++) {
             int yLabelHeight = yBase - (i * (yBase - 30) / 5);
