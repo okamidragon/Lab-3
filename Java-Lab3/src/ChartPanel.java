@@ -1,5 +1,5 @@
 // Maddock Davis
-// Lab 3: CharPanel
+// ChartPanel
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,15 +25,14 @@ public class ChartPanel extends JPanel {
         if (data.isEmpty()) return;
 
         // Dimensions of the graph
-        int numYears = data.get(0).getPublicationsPerYear().size();
-        int barWidth = 20;
+        int barWidth = 10;
         int spacing = 10;
         int xOffset = 50;
         int yBase = getHeight() - 30;
 
         // Draw axes
-        g.drawLine(40, yBase, 40, 30); // Y-axis
-        g.drawLine(40, yBase, getWidth() - 10, yBase); // X-axis
+        g.drawLine(40, yBase, 40, 30);
+        g.drawLine(40, yBase, getWidth() - 10, yBase);
 
         // Draw x-axis labels
         int x = xOffset;
@@ -42,18 +41,27 @@ public class ChartPanel extends JPanel {
             x += barWidth + spacing;
         }
 
-        // Draw bars for each year
-        int yearOffset = 0;
-        for (int yearIndex = 0; yearIndex < numYears; yearIndex++) {
-            x = xOffset;
-            for (DevelopmentIndicator indicator : data) {
-                int publications = indicator.getPublicationsPerYear().get(yearIndex);
-                int barHeight = publications / 10;
-                g.setColor(Color.BLUE);
-                g.fillRect(x, yBase - barHeight, barWidth, barHeight);
-                x += barWidth + spacing;
-            }
-            yearOffset += 30;
+        // Calculate max publications for scaling
+        int maxPublications = data.stream()
+                .mapToInt(DevelopmentIndicator::getTotalPublications)
+                .max()
+                .orElse(1);
+
+        // Draw bars for total publications
+        x = xOffset;
+        for (DevelopmentIndicator indicator : data) {
+            int totalPublications = indicator.getTotalPublications();
+            int barHeight = (int) ((totalPublications / (double) maxPublications) * (yBase - 30));
+            g.setColor(Color.BLUE);
+            g.fillRect(x, yBase - barHeight, barWidth, barHeight);
+            x += barWidth + spacing;
+        }
+
+        // Optional: Draw Y-axis labels for scaling
+        int yScaleInterval = maxPublications / 5;
+        for (int i = 0; i <= 5; i++) {
+            int yLabelHeight = yBase - (i * (yBase - 30) / 5);
+            g.drawString(String.valueOf(i * yScaleInterval), 10, yLabelHeight);
         }
     }
 }
