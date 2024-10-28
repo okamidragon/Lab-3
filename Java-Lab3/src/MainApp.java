@@ -7,7 +7,6 @@ import java.util.List;
 
 public class MainApp {
     public static void main(String[] args) {
-
         // Loads the data from the CSV file
         SwingUtilities.invokeLater(() -> {
             DataLoader dataLoader = new DataLoader();
@@ -24,14 +23,18 @@ public class MainApp {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
 
-            // Creates the table, statistics, and graph
-            TablePanel tablePanel = new TablePanel(data);
+            // Creates the details panel
+            DetailsPanel detailsPanel = new DetailsPanel();
+
+            // Creates the table and statistics panels
+            TablePanel tablePanel = new TablePanel(data, detailsPanel);
             StatsPanel statsPanel = new StatsPanel(data);
             ChartPanel chartPanel = new ChartPanel(data);
 
             // Formats the whole GUI
             frame.add(statsPanel, BorderLayout.NORTH);
             frame.add(tablePanel, BorderLayout.CENTER);
+            frame.add(detailsPanel, BorderLayout.EAST);
             frame.add(chartPanel, BorderLayout.SOUTH);
 
             frame.setSize(800, 600);
