@@ -12,14 +12,15 @@ import java.util.stream.Stream;
 public class DataLoader {
     public static List<DevelopmentIndicator> loadData(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            
             // Skip the header line and process each line as a DevelopmentIndicator
             return br.lines()
-                    .skip(1) // Skip header line
+                    .skip(1)
                     .map(line -> {
                         String[] values = line.split(";");
                         String country = values[0];
                         List<Integer> publications = Stream.of(values)
-                                .skip(2) // Start from index 2 for the years
+                                .skip(2)
                                 .map(Integer::parseInt)
                                 .collect(Collectors.toList());
                         return new DevelopmentIndicator(country, publications);
@@ -27,7 +28,7 @@ public class DataLoader {
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
-            return List.of(); // Return an empty list in case of an exception
+            return List.of();
         }
     }
 }
