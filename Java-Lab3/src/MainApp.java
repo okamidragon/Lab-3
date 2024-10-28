@@ -19,9 +19,10 @@ public class MainApp {
             }
 
             // Creates the GUI
-            JFrame frame = new JFrame("Data Visualization Application");
+            JFrame frame = new JFrame("Renewable Energy Publications Per Year");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
+
 
             // Creates the details panel
             DetailsPanel detailsPanel = new DetailsPanel();
