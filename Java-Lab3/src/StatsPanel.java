@@ -12,7 +12,7 @@
         private JLabel mostInSingleYearLabel;
 
         public StatsPanel(List<DevelopmentIndicator> data) {
-            setLayout(new GridLayout(3, 1));
+            setLayout(new GridLayout(4, 1));
 
             // Calculate statistics
             String mostPublicationsCountry = getCountryWithMostPublications(data);
@@ -23,6 +23,12 @@
             mostPublicationsLabel = new JLabel("Country with Most Publications: " + mostPublicationsCountry);
             leastPublicationsLabel = new JLabel("Country with Least Publications: " + leastPublicationsCountry);
             mostInSingleYearLabel = new JLabel("Country with Most Publications in a Single Year: " + mostInSingleYearCountry);
+
+            // Add title label
+            JLabel titleLabel = new JLabel("Statistics Panel:", SwingConstants.CENTER);
+            titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            add(titleLabel, BorderLayout.NORTH);
 
             // Displays the statistics on the GUI
             add(mostPublicationsLabel);
